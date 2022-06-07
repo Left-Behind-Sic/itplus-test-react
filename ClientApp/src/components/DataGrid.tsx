@@ -1,9 +1,8 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { useEffect } from "react";
-import { fetchHouses } from "../store/reducers/ActionCreators";
-import LinearProgress from "@mui/material/LinearProgress";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { fetchHousesPlants } from "../store/reducers/ActionCreators";
 
 export default function BasicColumnsGrid() {
   const { housesPlants, isLoading, error } = useAppSelector(
@@ -11,12 +10,91 @@ export default function BasicColumnsGrid() {
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchHouses());
+    dispatch(fetchHousesPlants());
   }, [dispatch]);
 
-  let rows = housesPlants.houses.flatMap((house, indexFirst) =>
-    house.consumptions.flatMap((item, index) => ({
-      id: indexFirst * 1000 + index,
+  const columns: GridColDef[] = [
+    { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
+    {
+      field: "Name",
+      headerName: "Название объекта",
+      width: 200,
+      editable: true,
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "Date",
+      type: "date",
+      valueGetter: ({ value }) => value && new Date(value),
+      headerName: "Дата",
+      width: 200,
+      editable: true,
+      flex: 0.5,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "Weather",
+      type: "number",
+      headerName: "Температура",
+      width: 160,
+      editable: true,
+      flex: 0.5,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "Consumption",
+      type: "number",
+      headerName: "Потребление",
+      width: 160,
+      editable: true,
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "Price",
+      type: "number",
+      headerName: "Цена на кирпич",
+      width: 160,
+      editable: true,
+      flex: 0.5,
+      align: "center",
+      headerAlign: "center",
+    },
+  ];
+
+  // let newRows = Object.keys(housesPlants).flatMap(
+  //   (housePlant, indexFirst) => (
+  //     housePlant.houses.flatMap((house, index) =>
+  //       house.consumptions.map((item) => ({
+  //         id: indexFirst * 1000 + index,
+  //         Name: house.Name,
+  //         ConsumerId: house.ConsumerId,
+  //         Date: item.Date,
+  //         Weather: item.Weather,
+  //         Consumption: item.Consumption,
+  //       }))
+  //     ),
+  //     housePlant.plants.flatMap((plant, index) =>
+  //       plant.consumptions.map((item) => ({
+  //         id: indexFirst * 1000 + index * 2,
+  //         Name: plant.Name,
+  //         ConsumerId: plant.ConsumerId,
+  //         Date: item.Date,
+  //         Price: item.Price,
+  //         Consumption: item.Consumption,
+  //       }))
+  //     )
+  //   )
+  // );
+  let inc: number = 0;
+  const houseRows = housesPlants.houses.flatMap((house, indexFirst) =>
+    house.consumptions.map((item, index) => ({
+      id: inc++,
       Name: house.Name,
       ConsumerId: house.ConsumerId,
       Date: item.Date,
@@ -25,60 +103,34 @@ export default function BasicColumnsGrid() {
     }))
   );
 
+  const plantRows = housesPlants.plants.flatMap((plant, indexFirst) =>
+    plant.consumptions.map((item, index) => ({
+      id: inc++,
+      Name: plant.Name,
+      ConsumerId: plant.ConsumerId,
+      Date: item.Date,
+      Price: item.Price,
+      Consumption: item.Consumption,
+    }))
+  );
+
+  const rows = [...houseRows, ...plantRows];
+
   return (
-    <div style={{ height: window.innerHeight, width: "100%" }}>
+    <div style={{ height: window.innerHeight - 40, width: "100%" }}>
       {isLoading && <h1>Загрузка</h1>}
       {error && <h1>Ошибка</h1>}
       {console.log(isLoading)}
+      {console.log(rows)}
+      {/*{JSON.stringify(housesPlants, null, 4)}*/}
+
       <DataGrid
+        getRowId={(row) => row.id}
         // components={{ LoadingOverlay: LinearProgress }}
         // loading
         // {...housesPlants}
         experimentalFeatures={{ newEditingApi: true }}
-        columns={[
-          // { field: "id" },
-          { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
-          {
-            field: "Name",
-            headerName: "Название объекта",
-            width: 200,
-            editable: true,
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-          },
-          {
-            field: "Date",
-            type: "date",
-            valueGetter: ({ value }) => value && new Date(value),
-            headerName: "Дата",
-            width: 200,
-            editable: true,
-            flex: 0.5,
-            align: "center",
-            headerAlign: "center",
-          },
-          {
-            field: "Weather",
-            type: "number",
-            headerName: "Температура",
-            width: 160,
-            editable: true,
-            flex: 0.5,
-            align: "center",
-            headerAlign: "center",
-          },
-          {
-            field: "Consumption",
-            type: "number",
-            headerName: "Потребление",
-            width: 160,
-            editable: true,
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-          },
-        ]}
+        columns={columns}
         rows={rows}
       />
     </div>

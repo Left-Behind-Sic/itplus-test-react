@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AppDispatch } from "../store";
 import { House, HousesPlants } from "../../models/IHouse";
-import { houseSlice } from "./HouseSlice";
+import { housesPlantsSlice } from "./HousesPlantsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // export const fetchHouses = () => async (dispatch: AppDispatch) => {
@@ -14,7 +14,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 //   }
 // };
 
-export const fetchHouses = createAsyncThunk(
+export const fetchHousesPlants = createAsyncThunk(
   "housesPlants/fetchAll",
   async (_, thunkAPI) => {
     try {

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { fetchHouses } from "./store/reducers/ActionCreators";
-import { Container, Grid } from "@mui/material";
+import { fetchHousesPlants } from "./store/reducers/ActionCreators";
+import { Container, createTheme, Grid } from "@mui/material";
 import DataGrid from "./components/DataGrid";
+import { ruRU } from "@mui/material/locale";
 
 function App() {
   // const { housesPlants, isLoading, error } = useAppSelector(
@@ -19,7 +20,6 @@ function App() {
   return (
     <Container sx={{ mt: "1rem" }}>
       <Grid container>
-        {/*{JSON.stringify(housesPlants, null, 4)}*/}
         {/*<Grid item xs={12} md={4}>*/}
         {/*  <Tabs />*/}
         {/*</Grid>*/}

@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import houseReducer from "./reducers/HouseSlice";
+import houseReducer from "./reducers/HousesPlantsSlice";
 
 const rootReducer = combineReducers({
   houseReducer,

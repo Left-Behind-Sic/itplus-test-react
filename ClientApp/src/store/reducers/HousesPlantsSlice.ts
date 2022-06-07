@@ -1,27 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { House, HousesPlants } from "../../models/IHouse";
-import { fetchHouses } from "./ActionCreators";
+import { fetchHousesPlants } from "./ActionCreators";
 
 interface HouseState {
   housesPlants: HousesPlants;
   isLoading: boolean;
   error: string;
-  count: number;
 }
 
 const initialState: HouseState = {
   housesPlants: { houses: [], plants: [] },
   isLoading: false,
   error: "",
-  count: 0,
 };
 
-export const houseSlice = createSlice({
+export const housesPlantsSlice = createSlice({
   name: "housesPlants",
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchHouses.fulfilled.type]: (
+    [fetchHousesPlants.fulfilled.type]: (
       state,
       action: PayloadAction<HousesPlants>
     ) => {
@@ -29,14 +27,17 @@ export const houseSlice = createSlice({
       state.error = "";
       state.housesPlants = action.payload;
     },
-    [fetchHouses.pending.type]: (state) => {
+    [fetchHousesPlants.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [fetchHouses.rejected.type]: (state, action: PayloadAction<string>) => {
+    [fetchHousesPlants.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export default houseSlice.reducer;
+export default housesPlantsSlice.reducer;
