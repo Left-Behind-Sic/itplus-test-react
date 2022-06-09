@@ -4,7 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchHousesPlants } from "../store/reducers/ActionCreators";
 
-export default function BasicColumnsGrid() {
+export default function Grid() {
   const { housesPlants, isLoading, error } = useAppSelector(
     (state) => state.houseReducer
   );
@@ -91,37 +91,39 @@ export default function BasicColumnsGrid() {
   //     )
   //   )
   // );
-  let inc: number = 0;
-  const houseRows = housesPlants.houses.flatMap((house, indexFirst) =>
-    house.consumptions.map((item, index) => ({
-      id: inc++,
-      Name: house.Name,
-      ConsumerId: house.ConsumerId,
-      Date: item.Date,
-      Weather: item.Weather,
-      Consumption: item.Consumption,
-    }))
-  );
 
-  const plantRows = housesPlants.plants.flatMap((plant, indexFirst) =>
-    plant.consumptions.map((item, index) => ({
-      id: inc++,
-      Name: plant.Name,
-      ConsumerId: plant.ConsumerId,
-      Date: item.Date,
-      Price: item.Price,
-      Consumption: item.Consumption,
-    }))
-  );
+  const rows = () => {
+    let inc: number = 0;
+    const houseRows = housesPlants.houses.flatMap((house, indexFirst) =>
+      house.consumptions.map((item, index) => ({
+        id: inc++,
+        Name: house.Name,
+        ConsumerId: house.ConsumerId,
+        Date: item.Date,
+        Weather: item.Weather,
+        Consumption: item.Consumption,
+      }))
+    );
 
-  const rows = [...houseRows, ...plantRows];
+    const plantRows = housesPlants.plants.flatMap((plant, indexFirst) =>
+      plant.consumptions.map((item, index) => ({
+        id: inc++,
+        Name: plant.Name,
+        ConsumerId: plant.ConsumerId,
+        Date: item.Date,
+        Price: item.Price,
+        Consumption: item.Consumption,
+      }))
+    );
+    return [...houseRows, ...plantRows];
+  };
 
   return (
     <div style={{ height: window.innerHeight - 40, width: "100%" }}>
       {isLoading && <h1>Загрузка</h1>}
       {error && <h1>Ошибка</h1>}
       {console.log(isLoading)}
-      {console.log(rows)}
+      {console.log(rows())}
       {/*{JSON.stringify(housesPlants, null, 4)}*/}
 
       <DataGrid
@@ -131,7 +133,7 @@ export default function BasicColumnsGrid() {
         // {...housesPlants}
         experimentalFeatures={{ newEditingApi: true }}
         columns={columns}
-        rows={rows}
+        rows={rows()}
       />
     </div>
   );

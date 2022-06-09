@@ -4,13 +4,13 @@ import { House, HousesPlants } from "../../models/IHouse";
 import { housesPlantsSlice } from "./HousesPlantsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// export const fetchHouses = () => async (dispatch: AppDispatch) => {
+// export const fetchHousesPlants = () => async (dispatch: AppDispatch) => {
 //   try {
-//     dispatch(houseSlice.actions.housesFetching());
-//     const response = await axios.get<House[]>("/api/Data");
-//     dispatch(houseSlice.actions.housesFetchingSuccess(response.data));
+//     dispatch(housesPlantsSlice.actions.housesFetching());
+//     const response = await axios.get<HousesPlants>("/api/Data");
+//     dispatch(housesPlantsSlice.actions.housesFetchingSuccess(response.data));
 //   } catch (e) {
-//     dispatch(houseSlice.actions.housesFetchingError(e.message));
+//     dispatch(housesPlantsSlice.actions.housesFetchingError(e.message));
 //   }
 // };
 

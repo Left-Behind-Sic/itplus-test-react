@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
+import { Container, Grid } from "@mui/material";
+import DataGrid from "./components/DataGrid";
+import Charts from "./components/Charts";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { fetchHousesPlants } from "./store/reducers/ActionCreators";
-import { Container, createTheme, Grid } from "@mui/material";
-import DataGrid from "./components/DataGrid";
-import { ruRU } from "@mui/material/locale";
 
 function App() {
-  // const { housesPlants, isLoading, error } = useAppSelector(
-  //   (state) => state.houseReducer
-  // );
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchHouses());
-  // }, [dispatch]);
+  const { housesPlants, isLoading, error } = useAppSelector(
+    (state) => state.houseReducer
+  );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchHousesPlants());
+  }, [dispatch]);
 
   // let houseMap = Object.entries(housesPlants.houses);
   // console.log(houseMap);
@@ -20,11 +20,14 @@ function App() {
   return (
     <Container sx={{ mt: "1rem" }}>
       <Grid container>
+        {isLoading && <h1>Загрузка</h1>}
+        {error && <h1>Ошибка</h1>}
         {/*<Grid item xs={12} md={4}>*/}
         {/*  <Tabs />*/}
         {/*</Grid>*/}
         <Grid item xs={12} md={12}>
-          <DataGrid />
+          <Charts housesPlants={housesPlants} />
+          {/*<DataGrid />*/}
         </Grid>
         {/*{housesPlants.houses.map((house) => (*/}
         {/*  <Grid item xs={12} md={4} key={house.ConsumerId}>*/}
