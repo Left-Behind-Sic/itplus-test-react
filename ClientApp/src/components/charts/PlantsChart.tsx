@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchHousesPlants } from "../../store/reducers/ActionCreators";
-import { House, HousesPlants } from "../../models/IHouse";
+import { HousesPlants } from "../../models/IHouse";
 
 ChartJS.register(
   CategoryScale,
@@ -41,7 +39,7 @@ const options = {
       },
       title: {
         display: true,
-        text: "Температура",
+        text: "Цена на кирпич",
       },
     },
     y: {
@@ -72,86 +70,33 @@ const options = {
     },
     title: {
       display: true,
-      text: "Зависимость потребления жилых домов от температуры окружающего воздуха",
+      text: "Зависимость потребления заводов от цены на кирпич",
     },
     tooltip: {
       callbacks: {
-        title: (context: any) => `Температура: ${context[0].label} C`,
+        title: (context: any) => `Цена: ${context[0].label}`,
       },
     },
   },
 };
 
-function datas(data: HousesPlants) {
-  const rndColor = () => {
-    const byte = () => Math.floor(Math.random() * 256);
-    return `rgb(${byte()}, ${byte()}, ${byte()})`;
-  };
-  let inc = 1;
+export default function PlantsChart({ housesPlants }: ChartProps) {
+  const newArray = housesPlants.plants
+    .flatMap((plant) => plant.consumptions)
+    .sort((a, b) => a.Price - b.Price);
+  const labels = newArray.map((consumption) => consumption.Price);
 
-  return data.houses.map((house) => ({
-    label: house.Name,
-    data: house.consumptions.map((consumption) => consumption.Consumption),
-    borderColor: rndColor(),
-    backgroundColor: rndColor(),
-    tension: 0.1,
-  }));
-}
-
-export default function Chart({ housesPlants }: ChartProps) {
-  // const dispatch = useAppDispatch();
-  //
-  // const { housesPlants, isLoading, error } = useAppSelector(
-  //   (state) => state.houseReducer
-  // );
-  // useEffect(() => {
-  //   dispatch(fetchHousesPlants());
-  // }, []);
-  // console.log(housesPlants);
-
-  const labels = housesPlants.houses.map((house) =>
-    house.consumptions.map((consumption) => consumption.Weather)
-  )[0];
-  // const labels = housesPlants.houses.flatMap((house) =>
-  //   house.consumptions.map((consumption) => consumption.Consumption)
-  // );
-
-  // function label(data: HousesPlants) {
-  //     return data.houses.map((house) =>
-  //         house.consumptions.map((consumption) => consumption.Consumption)
-  //     );
-  // }
-  // console.log(label(housesPlants)[0]);
-
-  // const labels = housesPlants.houses[0].consumptions.flatMap(
-  //     (consumption) => consumption.Consumption
-  // );
-  // const houseConsumption = housesPlants.houses[0].consumptions.flatMap(
-  //   (consumption) => consumption.Consumption
-  // );
-
-  // console.log(houseConsumption);
-  // console.log(labels);
-
-  console.log(datas(housesPlants));
   const data = {
-    labels,
-    // labels: housesPlants.houses.flatMap((house) =>
-    //   house.consumptions.map((consumption) => consumption.Weather)
-    // ),
-    // datasets: [
-    //   {
-    //     type: "line",
-    //     label: "Температура",
-    //     data: houseConsumption,
-    //     borderColor: "rgb(255, 99, 132)",
-    //     backgroundColor: "rgba(255, 99, 132, 0.5)",
-    //     tension: 0.1,
-    //     cubicInterpolationMode: "monotone",
-    //     pointRadius: 1,
-    //   },
-    // ],
-    datasets: datas(housesPlants),
+    labels: labels,
+    datasets: [
+      {
+        label: "Потребление",
+        data: newArray.map((consumption) => consumption.Consumption),
+        borderColor: "rgb(88, 138, 127)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        tension: 0.1,
+      },
+    ],
   };
   return (
     <>

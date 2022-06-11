@@ -1,18 +1,12 @@
 import * as React from "react";
-import { useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { fetchHousesPlants } from "../store/reducers/ActionCreators";
+import { HousesPlants } from "../models/IHouse";
 
-export default function Grid() {
-  const { housesPlants, isLoading, error } = useAppSelector(
-    (state) => state.houseReducer
-  );
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchHousesPlants());
-  }, [dispatch]);
+interface ChartProps {
+  housesPlants: HousesPlants;
+}
 
+export default function Grid({ housesPlants }: ChartProps) {
   const columns: GridColDef[] = [
     { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
     {
@@ -67,35 +61,10 @@ export default function Grid() {
     },
   ];
 
-  // let newRows = Object.keys(housesPlants).flatMap(
-  //   (housePlant, indexFirst) => (
-  //     housePlant.houses.flatMap((house, index) =>
-  //       house.consumptions.map((item) => ({
-  //         id: indexFirst * 1000 + index,
-  //         Name: house.Name,
-  //         ConsumerId: house.ConsumerId,
-  //         Date: item.Date,
-  //         Weather: item.Weather,
-  //         Consumption: item.Consumption,
-  //       }))
-  //     ),
-  //     housePlant.plants.flatMap((plant, index) =>
-  //       plant.consumptions.map((item) => ({
-  //         id: indexFirst * 1000 + index * 2,
-  //         Name: plant.Name,
-  //         ConsumerId: plant.ConsumerId,
-  //         Date: item.Date,
-  //         Price: item.Price,
-  //         Consumption: item.Consumption,
-  //       }))
-  //     )
-  //   )
-  // );
-
   const rows = () => {
     let inc: number = 0;
-    const houseRows = housesPlants.houses.flatMap((house, indexFirst) =>
-      house.consumptions.map((item, index) => ({
+    const houseRows = housesPlants.houses.flatMap((house) =>
+      house.consumptions.map((item) => ({
         id: inc++,
         Name: house.Name,
         ConsumerId: house.ConsumerId,
@@ -105,8 +74,8 @@ export default function Grid() {
       }))
     );
 
-    const plantRows = housesPlants.plants.flatMap((plant, indexFirst) =>
-      plant.consumptions.map((item, index) => ({
+    const plantRows = housesPlants.plants.flatMap((plant) =>
+      plant.consumptions.map((item) => ({
         id: inc++,
         Name: plant.Name,
         ConsumerId: plant.ConsumerId,
@@ -120,17 +89,8 @@ export default function Grid() {
 
   return (
     <div style={{ height: window.innerHeight - 40, width: "100%" }}>
-      {isLoading && <h1>Загрузка</h1>}
-      {error && <h1>Ошибка</h1>}
-      {console.log(isLoading)}
-      {console.log(rows())}
-      {/*{JSON.stringify(housesPlants, null, 4)}*/}
-
       <DataGrid
         getRowId={(row) => row.id}
-        // components={{ LoadingOverlay: LinearProgress }}
-        // loading
-        // {...housesPlants}
         experimentalFeatures={{ newEditingApi: true }}
         columns={columns}
         rows={rows()}

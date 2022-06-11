@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { Container, Grid } from "@mui/material";
 import DataGrid from "./components/DataGrid";
-import Charts from "./components/Charts";
+import HouseChart from "./components/charts/HouseChart";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { fetchHousesPlants } from "./store/reducers/ActionCreators";
+import PlantsChart from "./components/charts/PlantsChart";
+import HousesPlantsChart from "./components/charts/HousesPlantsChart";
 
 function App() {
   const { housesPlants, isLoading, error } = useAppSelector(
@@ -26,8 +28,12 @@ function App() {
         {/*  <Tabs />*/}
         {/*</Grid>*/}
         <Grid item xs={12} md={12}>
-          <Charts housesPlants={housesPlants} />
-          {/*<DataGrid />*/}
+          <HouseChart housesPlants={housesPlants} />
+          <hr />
+          <PlantsChart housesPlants={housesPlants} />
+          <hr />
+          <HousesPlantsChart housesPlants={housesPlants} />
+          <DataGrid housesPlants={housesPlants} />
         </Grid>
         {/*{housesPlants.houses.map((house) => (*/}
         {/*  <Grid item xs={12} md={4} key={house.ConsumerId}>*/}
