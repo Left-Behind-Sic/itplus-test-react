@@ -24,18 +24,14 @@ ChartJS.register(
   zoomPlugin
 );
 
-interface ChartProps {
-  housesPlants: HousesPlants;
-}
-
-const options = {
+const options: object = {
   animation: false,
   responsive: true,
   scales: {
     x: {
       ticks: {
         autoSkip: true,
-        maxTicksLimit: 25,
+        maxTicksLimit: 15,
       },
       title: {
         display: true,
@@ -80,11 +76,15 @@ const options = {
   },
 };
 
+interface ChartProps {
+  housesPlants: HousesPlants;
+}
+
 export default function PlantsChart({ housesPlants }: ChartProps) {
   const newArray = housesPlants.plants
     .flatMap((plant) => plant.consumptions)
     .sort((a, b) => a.Price - b.Price);
-  const labels = newArray.map((consumption) => consumption.Price);
+  const labels = newArray.map((consumption) => consumption.Price.toFixed(2));
 
   const data = {
     labels: labels,

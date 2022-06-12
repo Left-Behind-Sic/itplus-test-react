@@ -1,14 +1,14 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import houseReducer from "./reducers/HousesPlantsSlice";
+import housesPlantsReducer from "./reducers/HousesPlantsSlice";
 
 const rootReducer = combineReducers({
-  houseReducer,
+    housesPlantsReducer,
 });
 
 export const setupStore = () => {
-  return configureStore({
-    reducer: rootReducer,
-  });
+    return configureStore({
+        reducer: rootReducer,
+    });
 };
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -26,11 +26,7 @@ ChartJS.register(
   Filler
 );
 
-interface ChartProps {
-  housesPlants: HousesPlants;
-}
-
-const options = {
+const options: object = {
   animation: false,
   responsive: true,
   scales: {
@@ -47,8 +43,6 @@ const options = {
       },
     },
     y: {
-      // min: 0,
-      // max: 650000,
       stacked: true,
       title: {
         display: true,
@@ -132,13 +126,13 @@ function datas(data: HousesPlants) {
     .map(() => [...consumptions].sort())
     .flat();
 
-  housesConsumption.forEach(function (item, i, a) {
+  housesConsumption.forEach(function (item, i, a: any) {
     if (item.Date !== dates[i]) {
       a.splice(i, 0, { Date: dates[i], Consumption: 0 });
     }
   });
 
-  plantsConsumption.forEach(function (item, i, a) {
+  plantsConsumption.forEach(function (item, i, a: any) {
     if (item.Date !== dates[i]) {
       a.splice(i, 0, { Date: dates[i], Consumption: 0 });
     }
@@ -169,14 +163,14 @@ function datas(data: HousesPlants) {
     })
   );
 
-  consumption.forEach(function (item, i, a) {
+  consumption.forEach(function (item, i, a: any) {
     if (item.Date !== dates[i]) {
       a.splice(i, 0, { Date: dates[i], Consumption: 0 });
     }
   });
 
   const result = Object.fromEntries(consumption.map((item) => [item.Date, 0]));
-  consumption.forEach((e) => {
+  consumption.forEach((e: any) => {
     result[e.Date] += e.Consumption;
   });
 
@@ -191,6 +185,10 @@ function datas(data: HousesPlants) {
   };
 
   return [...houses, ...plants, fullConsumption];
+}
+
+interface ChartProps {
+  housesPlants: HousesPlants;
 }
 
 export default function Chart({ housesPlants }: ChartProps) {

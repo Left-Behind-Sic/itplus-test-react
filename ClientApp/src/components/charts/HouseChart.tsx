@@ -24,11 +24,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-interface ChartProps {
-  housesPlants: HousesPlants;
-}
-
-const options = {
+const options: object = {
   animation: false,
   responsive: true,
   scales: {
@@ -96,6 +92,9 @@ function datas(data: HousesPlants) {
     tension: 0.1,
     fill: false,
   }));
+}
+interface ChartProps {
+  housesPlants: HousesPlants;
 }
 
 export default function Chart({ housesPlants }: ChartProps) {

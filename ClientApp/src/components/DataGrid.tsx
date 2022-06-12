@@ -1,12 +1,22 @@
 import * as React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { HousesPlants } from "../models/IHouse";
+import { useEffect } from "react";
+import {
+  DataGrid,
+  GridCellEditCommitParams,
+  GridColDef,
+} from "@mui/x-data-grid";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { fetchHousesPlants } from "../store/reducers/ActionCreators";
 
-interface ChartProps {
-  housesPlants: HousesPlants;
-}
+export default function Grid() {
+  const { housesPlants, isLoading, error } = useAppSelector(
+    (state) => state.housesPlantsReducer
+  );
 
-export default function Grid({ housesPlants }: ChartProps) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchHousesPlants());
+  }, []);
   const columns: GridColDef[] = [
     { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
     {
@@ -87,13 +97,20 @@ export default function Grid({ housesPlants }: ChartProps) {
     return [...houseRows, ...plantRows];
   };
 
+  const handleCommit = (e: GridCellEditCommitParams) => {
+    console.log(e);
+  };
+
   return (
-    <div style={{ height: window.innerHeight - 40, width: "100%" }}>
+    <div style={{ width: "100%" }}>
+      {isLoading && <h1>Загрузка</h1>}
+      {error && <h1>Ошибка</h1>}
       <DataGrid
+        autoHeight
         getRowId={(row) => row.id}
-        experimentalFeatures={{ newEditingApi: true }}
         columns={columns}
         rows={rows()}
+        onCellEditCommit={handleCommit}
       />
     </div>
   );

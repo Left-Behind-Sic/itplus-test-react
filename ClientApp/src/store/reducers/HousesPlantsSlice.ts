@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { House, HousesPlants } from "../../models/IHouse";
+import { HousesPlants } from "../../models/IHouse";
 import { fetchHousesPlants } from "./ActionCreators";
 
 interface HouseState {
@@ -17,7 +17,11 @@ const initialState: HouseState = {
 export const housesPlantsSlice = createSlice({
   name: "housesPlants",
   initialState,
-  reducers: {},
+  reducers: {
+    // dataChange(state, action) {
+    //   state.housesPlants = state.housesPlants.
+    // },
+  },
   extraReducers: {
     [fetchHousesPlants.fulfilled.type]: (
       state,
