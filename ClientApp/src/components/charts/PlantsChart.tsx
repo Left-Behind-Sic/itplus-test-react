@@ -26,12 +26,11 @@ ChartJS.register(
 
 const options: object = {
   animation: false,
-  responsive: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       ticks: {
         autoSkip: true,
-        maxTicksLimit: 15,
       },
       title: {
         display: true,

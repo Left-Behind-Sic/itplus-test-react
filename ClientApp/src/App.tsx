@@ -9,8 +9,8 @@ function App() {
   return (
     <Container>
       <Grid container>
+        <Header />
         <Grid item xs={12} md={12}>
-          <Header />
           <Routes>
             <Route path="/DataGrid" element={<DataGrid />} />
             <Route path="/Charts" element={<Charts />} />
