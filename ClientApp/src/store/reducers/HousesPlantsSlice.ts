@@ -83,6 +83,7 @@ export const housesPlantsSlice = createSlice({
                     return { ...r };
                 }
             });
+            console.log(changed);
 
             let name = [...new Set(changed.map((a) => a.Name))];
             let ids = [...new Set(changed.map((a) => a.ConsumerId))];

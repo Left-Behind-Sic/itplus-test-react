@@ -21,7 +21,7 @@ export default function Charts() {
             <Grid
                 item
                 sx={{
-                    display: { xs: "flex", md: "block" },
+                    display: "flex",
                     height: { xs: 300, md: 700 },
                 }}
             >
@@ -30,7 +30,7 @@ export default function Charts() {
             <Grid
                 item
                 sx={{
-                    display: { xs: "flex", md: "block" },
+                    display: "flex",
                     height: { xs: 300, md: 700 },
                 }}
             >
@@ -39,7 +39,7 @@ export default function Charts() {
             <Grid
                 item
                 sx={{
-                    display: { xs: "flex", md: "block" },
+                    display: "flex",
                     height: { xs: 400, md: 700 },
                 }}
             >
