@@ -14,32 +14,6 @@ const initialState: HouseState = {
     error: "",
 };
 
-// const rows = () => {
-//   let inc: number = 0;
-//   const houseRows = housesPlants.houses.flatMap((house) =>
-//     house.consumptions.map((item) => ({
-//       id: inc++,
-//       Name: house.Name,
-//       ConsumerId: house.ConsumerId,
-//       Date: item.Date,
-//       Weather: item.Weather,
-//       Consumption: item.Consumption,
-//     }))
-//   );
-//
-//   const plantRows = state.plants.flatMap((plant) =>
-//     plant.consumptions.map((item) => ({
-//       id: inc++,
-//       Name: plant.Name,
-//       ConsumerId: plant.ConsumerId,
-//       Date: item.Date,
-//       Price: item.Price,
-//       Consumption: item.Consumption,
-//     }))
-//   );
-//   return [...houseRows, ...plantRows];
-// };
-
 interface Item {
     id: number;
     field: string;
@@ -83,7 +57,6 @@ export const housesPlantsSlice = createSlice({
                     return { ...r };
                 }
             });
-            console.log(changed);
 
             let name = [...new Set(changed.map((a) => a.Name))];
             let ids = [...new Set(changed.map((a) => a.ConsumerId))];

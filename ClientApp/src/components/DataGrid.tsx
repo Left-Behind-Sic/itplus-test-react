@@ -1,12 +1,10 @@
-import * as React from "react";
-import { useEffect } from "react";
+import React from "react";
 import {
     DataGrid,
     GridCellEditCommitParams,
     GridColDef,
 } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { fetchHousesPlants } from "../store/reducers/ActionCreators";
 import { dataChange } from "../store/reducers/HousesPlantsSlice";
 
 export default function Grid() {
@@ -15,14 +13,10 @@ export default function Grid() {
     );
 
     const dispatch = useAppDispatch();
-    useEffect(() => {
-        dispatch(fetchHousesPlants());
-    }, [dispatch]);
     const columns: GridColDef[] = [
         {
             field: "Name",
             headerName: "Название объекта",
-            editable: true,
             flex: 0.8,
             align: "center",
             headerAlign: "center",
@@ -107,8 +101,6 @@ export default function Grid() {
 
     return (
         <div style={{ width: "100%" }}>
-            {isLoading && <h1>Загрузка</h1>}
-            {error && <h1>Ошибка</h1>}
             <DataGrid
                 autoHeight
                 getRowId={(row) => row.id}

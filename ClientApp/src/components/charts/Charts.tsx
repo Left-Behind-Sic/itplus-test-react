@@ -7,17 +7,8 @@ import HousesPlantsChart from "./HousesPlantsChart";
 import PlantsChart from "./PlantsChart";
 
 export default function Charts() {
-    const { housesPlants, isLoading, error } = useAppSelector(
-        (state) => state.housesPlantsReducer
-    );
-    // const dispatch = useAppDispatch();
-    // useEffect(() => {
-    //     dispatch(fetchHousesPlants());
-    // }, []);
     return (
         <>
-            {isLoading && <h1>Загрузка</h1>}
-            {error && <h1>Ошибка</h1>}
             <Grid
                 item
                 sx={{
@@ -25,7 +16,7 @@ export default function Charts() {
                     height: { xs: 300, md: 700 },
                 }}
             >
-                <HouseChart housesPlants={housesPlants} />
+                <HouseChart />
             </Grid>
             <Grid
                 item
@@ -34,7 +25,7 @@ export default function Charts() {
                     height: { xs: 300, md: 700 },
                 }}
             >
-                <PlantsChart housesPlants={housesPlants} />
+                <PlantsChart />
             </Grid>
             <Grid
                 item
@@ -43,7 +34,7 @@ export default function Charts() {
                     height: { xs: 400, md: 700 },
                 }}
             >
-                <HousesPlantsChart housesPlants={housesPlants} />
+                <HousesPlantsChart />
             </Grid>
         </>
     );

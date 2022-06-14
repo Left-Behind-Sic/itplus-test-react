@@ -13,6 +13,7 @@ import {
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
 import { HousesPlants } from "../../models/IHouse";
+import { useAppSelector } from "../../hooks/redux";
 
 ChartJS.register(
     CategoryScale,
@@ -215,11 +216,10 @@ function datas(data: HousesPlants) {
     };
 }
 
-interface ChartProps {
-    housesPlants: HousesPlants;
-}
-
-export default function Chart({ housesPlants }: ChartProps) {
+export default function Chart() {
+    const { housesPlants } = useAppSelector(
+        (state) => state.housesPlantsReducer
+    );
     const labels = datas(housesPlants).labels;
 
     const datasets = datas(housesPlants).datas;
