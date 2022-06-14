@@ -7,6 +7,7 @@ import {
 } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchHousesPlants } from "../store/reducers/ActionCreators";
+import { dataChange } from "../store/reducers/HousesPlantsSlice";
 
 export default function Grid() {
   const { housesPlants, isLoading, error } = useAppSelector(
@@ -16,26 +17,25 @@ export default function Grid() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchHousesPlants());
-  }, []);
+  }, [dispatch]);
   const columns: GridColDef[] = [
-    { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
+    // { field: "ConsumerId", type: "number", headerName: "ID", flex: 0.2 },
     {
       field: "Name",
       headerName: "Название объекта",
-      width: 200,
       editable: true,
-      flex: 1,
+      flex: 0.8,
       align: "center",
       headerAlign: "center",
+      type: "string",
     },
     {
       field: "Date",
       type: "date",
       valueGetter: ({ value }) => value && new Date(value),
       headerName: "Дата",
-      width: 200,
       editable: true,
-      flex: 0.5,
+      flex: 0.7,
       align: "center",
       headerAlign: "center",
     },
@@ -43,9 +43,8 @@ export default function Grid() {
       field: "Weather",
       type: "number",
       headerName: "Температура",
-      width: 160,
       editable: true,
-      flex: 0.5,
+      flex: 0.4,
       align: "center",
       headerAlign: "center",
     },
@@ -53,9 +52,8 @@ export default function Grid() {
       field: "Consumption",
       type: "number",
       headerName: "Потребление",
-      width: 160,
       editable: true,
-      flex: 1,
+      flex: 0.7,
       align: "center",
       headerAlign: "center",
     },
@@ -63,9 +61,8 @@ export default function Grid() {
       field: "Price",
       type: "number",
       headerName: "Цена на кирпич",
-      width: 160,
       editable: true,
-      flex: 0.5,
+      flex: 0.7,
       align: "center",
       headerAlign: "center",
     },
@@ -98,7 +95,7 @@ export default function Grid() {
   };
 
   const handleCommit = (e: GridCellEditCommitParams) => {
-    console.log(e);
+    dispatch(dataChange(e));
   };
 
   return (
@@ -111,6 +108,7 @@ export default function Grid() {
         columns={columns}
         rows={rows()}
         onCellEditCommit={handleCommit}
+        sx={{ fontSize: { xs: 9, md: 14 } }}
       />
     </div>
   );

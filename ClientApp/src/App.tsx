@@ -6,20 +6,20 @@ import DataGrid from "./components/DataGrid";
 import Charts from "./components/charts/Charts";
 
 function App() {
-  return (
-    <Container>
-      <Grid container>
-        <Header />
-        <Grid item xs={12} md={12}>
-          <Routes>
-            <Route path="/DataGrid" element={<DataGrid />} />
-            <Route path="/Charts" element={<Charts />} />
-            <Route path="/" element={<DataGrid />} />
-          </Routes>
-        </Grid>
-      </Grid>
-    </Container>
-  );
+    return (
+        <Container>
+            <Grid container>
+                <Header />
+                <Grid item xs={12} md={12}>
+                    <Routes>
+                        {/* <Route path="/DataGrid" element={<DataGrid />} /> */}
+                        <Route path="/Charts" element={<Charts />} />
+                        <Route path="/" element={<DataGrid />} />
+                    </Routes>
+                </Grid>
+            </Grid>
+        </Container>
+    );
 }
 
 export default App;
