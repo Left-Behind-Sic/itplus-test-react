@@ -7,7 +7,7 @@ import {
     LineElement,
     PointElement,
     Title,
-    Tooltip,
+    Tooltip, TooltipCallbacks,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
@@ -72,7 +72,7 @@ const options: object = {
         },
         tooltip: {
             callbacks: {
-                title: (context: any) => `Температура: ${context[0].label} C`,
+                title: (context: { label: string; }[]) => `Температура: ${context[0].label} C`,
             },
         },
     },

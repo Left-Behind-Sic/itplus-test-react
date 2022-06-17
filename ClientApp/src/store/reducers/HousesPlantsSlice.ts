@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { HousesPlants } from "../../models/IHouse";
-import { fetchHousesPlants } from "./ActionCreators";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {HouseConsumption, HousesPlants, PlantConsumption} from "../../models/IHouse";
+import {fetchHousesPlants} from "./ActionCreators";
+import {GridCellEditCommitParams} from "@mui/x-data-grid";
 
 interface HouseState {
     housesPlants: HousesPlants;
@@ -8,23 +9,20 @@ interface HouseState {
     error: string;
 }
 
+
+interface IHousePlantsConsumptions extends HouseConsumption, PlantConsumption {}
+
 const initialState: HouseState = {
     housesPlants: { houses: [], plants: [] },
     isLoading: false,
     error: "",
 };
 
-interface Item {
-    id: number;
-    field: string;
-    value: any;
-}
-
 export const housesPlantsSlice = createSlice({
     name: "housesPlants",
     initialState,
     reducers: {
-        dataChange: (state, action: PayloadAction<Item>) => {
+        dataChange: (state, action: PayloadAction<GridCellEditCommitParams>) => {
             let inc: number = 0;
             const houseRows = state.housesPlants.houses.flatMap((house) =>
                 house.consumptions.map((item) => ({
@@ -66,7 +64,7 @@ export const housesPlantsSlice = createSlice({
                 consumptions: [],
             }));
 
-            let result = nameIds.map((item) => ({
+            const result = nameIds.map((item) => ({
                 Name: item.Name,
                 ConsumerId: item.ConsumerId,
                 consumptions: changed
@@ -75,7 +73,7 @@ export const housesPlantsSlice = createSlice({
                             return true;
                         }
                     })
-                    .map((i) =>
+                    .map((i: IHousePlantsConsumptions) =>
                         i.Weather
                             ? {
                                   Date: i.Date,

@@ -70,7 +70,8 @@ const options: object = {
         },
         tooltip: {
             callbacks: {
-                title: (context: any) => `Цена: ${context[0].label}`,
+                title: (context: { label: string }[]) =>
+                    `Цена: ${context[0].label}`,
             },
         },
     },
@@ -82,8 +83,11 @@ export default function PlantsChart() {
     );
     const newArray = housesPlants.plants
         .flatMap((plant) => plant.consumptions)
-        .sort((a, b) => a.Price - b.Price);
-    const labels = newArray.map((consumption) => consumption.Price.toFixed(2));
+        .sort((a, b) => (a.Price as number) - (b.Price as number));
+
+    const labels = newArray.map((consumption) =>
+        consumption?.Price?.toFixed(2)
+    );
 
     const data = {
         labels: labels,

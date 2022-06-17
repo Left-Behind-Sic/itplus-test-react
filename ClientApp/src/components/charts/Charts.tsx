@@ -1,7 +1,5 @@
-import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchHousesPlants } from "../../store/reducers/ActionCreators";
+import {Grid} from "@mui/material";
+import React from "react";
 import HouseChart from "./HouseChart";
 import HousesPlantsChart from "./HousesPlantsChart";
 import PlantsChart from "./PlantsChart";

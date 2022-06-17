@@ -15,7 +15,7 @@ function App() {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(fetchHousesPlants());
-    }, [dispatch]);
+    }, []);
     return (
         <Container>
             <Grid container>

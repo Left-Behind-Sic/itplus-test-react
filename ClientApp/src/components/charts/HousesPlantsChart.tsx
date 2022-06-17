@@ -78,13 +78,14 @@ const options: object = {
         },
         tooltip: {
             callbacks: {
-                title: (context: any) => `Дата: ${context[0].label}`,
+                title: (context: { label: string }[]) =>
+                    `Дата: ${context[0].label}`,
             },
         },
     },
 };
 
-function union(setA: any, setB: any) {
+function unionDates(setA: Date[], setB: Date[]) {
     let _union = new Set(setA);
     for (let elem of setB) {
         _union.add(elem);
@@ -119,16 +120,23 @@ function datas(data: HousesPlants) {
         }))
     );
 
-    let consumptions = union(
-        housesConsumption.map((e) => e.Date),
-        plantsConsumption.map((e) => e.Date)
-    );
+
+
+        const consumptions = unionDates(
+            housesConsumption.map((e) => e.Date),
+            plantsConsumption.map((e) => e.Date)
+        );
+
+
+    let cons = [...consumptions];
 
     let dates = [...Object.keys(data.houses)]
-        .map(() => [...consumptions].sort())
+        .map(() => {
+            return cons.sort();
+        })
         .flat();
 
-    housesConsumption.forEach(function (item, i, a: any) {
+    housesConsumption.forEach(function (item, i, a) {
         if (item.Date !== dates[i]) {
             a.splice(i, 0, {
                 Name: item.Name,
@@ -138,7 +146,7 @@ function datas(data: HousesPlants) {
         }
     });
 
-    plantsConsumption.forEach(function (item, i, a: any) {
+    plantsConsumption.forEach(function (item, i, a) {
         if (item.Date !== dates[i]) {
             a.splice(i, 0, { Name: item.Name, Date: dates[i], Consumption: 0 });
         }
@@ -183,7 +191,7 @@ function datas(data: HousesPlants) {
         })
     );
 
-    consumption.forEach(function (item, i, a: any) {
+    consumption.forEach(function (item, i, a) {
         if (item.Date !== dates[i]) {
             a.splice(i, 0, { Date: dates[i], Consumption: 0 });
         }
@@ -193,8 +201,9 @@ function datas(data: HousesPlants) {
         consumption.map((item) => [item.Date, 0])
     );
 
-    consumption.forEach((e: any) => {
-        result[e.Date] += e.Consumption;
+    consumption.forEach((e: { Date: Date; Consumption: number }) => {
+        result[e.Date as keyof typeof e.Consumption.toLocaleString] +=
+            e.Consumption;
     });
 
     const fullConsumption = {

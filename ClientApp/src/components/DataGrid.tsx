@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { dataChange } from "../store/reducers/HousesPlantsSlice";
 
 export default function Grid() {
-    const { housesPlants, isLoading, error } = useAppSelector(
+    const { housesPlants } = useAppSelector(
         (state) => state.housesPlantsReducer
     );
 
