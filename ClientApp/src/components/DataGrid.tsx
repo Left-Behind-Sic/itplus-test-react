@@ -1,18 +1,16 @@
-import React from "react";
 import {
     DataGrid,
     GridCellEditCommitParams,
     GridColDef,
 } from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { dataChange } from "../store/reducers/HousesPlantsSlice";
+import { useQuery } from "react-query";
+import { HousesPlants } from "./../models/IHouse";
+import { getData } from "./../store/reducers/ActionCreators";
 
 export default function Grid() {
-    const { housesPlants } = useAppSelector(
-        (state) => state.housesPlantsReducer
-    );
+    const { data, isFetching } = useQuery("housesPlants", getData);
+    const housesPlants: HousesPlants = data;
 
-    const dispatch = useAppDispatch();
     const columns: GridColDef[] = [
         {
             field: "Name",
@@ -96,19 +94,22 @@ export default function Grid() {
                 .slice(0, -5);
         }
 
-        dispatch(dataChange(e));
+        // dispatch(dataChange(e));
     };
 
     return (
         <div style={{ width: "100%" }}>
-            <DataGrid
-                autoHeight
-                getRowId={(row) => row.id}
-                columns={columns}
-                rows={rows()}
-                onCellEditCommit={handleCommit}
-                sx={{ fontSize: { xs: 9, md: 14 } }}
-            />
+            {housesPlants && (
+                <DataGrid
+                    autoHeight
+                    getRowId={(row) => row.id}
+                    columns={columns}
+                    rows={rows()}
+                    onCellEditCommit={handleCommit}
+                    sx={{ fontSize: { xs: 9, md: 14 } }}
+                />
+            )}
+            {isFetching && <p>Updating..</p>}
         </div>
     );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -7,12 +6,11 @@ import {
     LineElement,
     PointElement,
     Title,
-    Tooltip, TooltipCallbacks,
+    Tooltip,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
 import { HousesPlants } from "../../models/IHouse";
-import { useAppSelector } from "../../hooks/redux";
 
 ChartJS.register(
     CategoryScale,
@@ -72,7 +70,8 @@ const options: object = {
         },
         tooltip: {
             callbacks: {
-                title: (context: { label: string; }[]) => `Температура: ${context[0].label} C`,
+                title: (context: { label: string }[]) =>
+                    `Температура: ${context[0].label} C`,
             },
         },
     },
@@ -94,22 +93,23 @@ function datas(data: HousesPlants) {
     }));
 }
 
-export default function Chart() {
-    const { housesPlants } = useAppSelector(
-        (state) => state.housesPlantsReducer
-    );
+interface ChartProps {
+    housesPlants: HousesPlants;
+}
+
+export default function Chart({ housesPlants }: ChartProps) {
     const labels = housesPlants.houses.map((house) =>
         house.consumptions.map((consumption) => consumption.Weather)
     )[0];
 
     const datasets = datas(housesPlants);
-    const data = {
+    const dataComponent = {
         labels,
         datasets: datasets,
     };
     return (
         <>
-            <Line options={options} data={data} />
+            <Line options={options} data={dataComponent} />
         </>
     );
 }

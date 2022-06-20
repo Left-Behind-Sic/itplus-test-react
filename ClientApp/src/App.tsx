@@ -1,21 +1,14 @@
-import React, { useEffect } from "react";
 import { Container, Grid } from "@mui/material";
-import Header from "./components/Header";
+import { useQuery } from "react-query";
 import { Route, Routes } from "react-router-dom";
-import DataGrid from "./components/DataGrid";
 import Charts from "./components/charts/Charts";
-import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { fetchHousesPlants } from "./store/reducers/ActionCreators";
+import DataGrid from "./components/DataGrid";
+import Header from "./components/Header";
+import { getData } from "./store/reducers/ActionCreators";
 
 function App() {
-    const { isLoading, error } = useAppSelector(
-        (state) => state.housesPlantsReducer
-    );
+    const { isLoading, error } = useQuery("housesPlants", getData);
 
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        dispatch(fetchHousesPlants());
-    }, []);
     return (
         <Container>
             <Grid container>

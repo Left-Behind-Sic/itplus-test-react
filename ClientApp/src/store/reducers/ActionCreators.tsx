@@ -15,13 +15,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 // };
 
 export const fetchHousesPlants = createAsyncThunk(
-  "housesPlants/fetchAll",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get<HousesPlants>("/api/Data");
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue("Не удалось загрузить");
+    "housesPlants/fetchAll",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get<HousesPlants>("/api/Data");
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue("Не удалось загрузить");
+        }
     }
-  }
 );
+
+export const getData = async () => {
+    const response = await fetch("/api/data");
+    return response.json();
+};

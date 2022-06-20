@@ -1,4 +1,3 @@
-import React from "react";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -12,7 +11,6 @@ import {
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
 import { HousesPlants } from "../../models/IHouse";
-import { useAppSelector } from "../../hooks/redux";
 
 ChartJS.register(
     CategoryScale,
@@ -77,10 +75,11 @@ const options: object = {
     },
 };
 
-export default function PlantsChart() {
-    const { housesPlants } = useAppSelector(
-        (state) => state.housesPlantsReducer
-    );
+interface ChartProps {
+    housesPlants: HousesPlants;
+}
+
+export default function PlantsChart({ housesPlants }: ChartProps) {
     const newArray = housesPlants.plants
         .flatMap((plant) => plant.consumptions)
         .sort((a, b) => (a.Price as number) - (b.Price as number));
@@ -89,7 +88,7 @@ export default function PlantsChart() {
         consumption?.Price?.toFixed(2)
     );
 
-    const data = {
+    const dataComponent = {
         labels: labels,
         datasets: [
             {
@@ -103,7 +102,7 @@ export default function PlantsChart() {
     };
     return (
         <>
-            <Line options={options} data={data} />
+            <Line options={options} data={dataComponent} />
         </>
     );
 }

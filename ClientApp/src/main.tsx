@@ -1,21 +1,25 @@
 import { ThemeProvider } from "@mui/material";
-import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import App from "./App";
-import { setupStore } from "./store/store";
-import { theme } from "./MUI_Theme/theme";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { theme } from "./MUI_Theme/theme";
 
-const store = setupStore();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 
 ReactDOM.render(
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <App />
             </BrowserRouter>
         </ThemeProvider>
-    </Provider>,
+    </QueryClientProvider>,
     document.getElementById("root")
 );
