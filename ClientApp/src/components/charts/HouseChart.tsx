@@ -105,7 +105,7 @@ export default function Chart({ housesPlants }: ChartProps) {
     const datasets = datas(housesPlants);
     const dataComponent = {
         labels,
-        datasets: datasets,
+        datasets,
     };
     return (
         <>

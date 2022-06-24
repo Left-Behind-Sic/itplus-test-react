@@ -1,18 +1,18 @@
 import { Grid } from "@mui/material";
-import { useQuery } from "react-query";
 import { HousesPlants } from "../../models/IHouse";
-import { getData } from "../../store/reducers/ActionCreators";
+import useGetData from "./../../hooks/useGetData";
 import HouseChart from "./HouseChart";
 import HousesPlantsChart from "./HousesPlantsChart";
 import PlantsChart from "./PlantsChart";
 
 export default function Charts() {
-    const { data } = useQuery("housesPlants", getData);
-    const housesPlants: HousesPlants = data;
+    const { data, isSuccess } = useGetData();
+    const housesPlants = data as HousesPlants;
 
     return (
         <>
-            {housesPlants && (
+            {console.log(isSuccess)}
+            {isSuccess ? (
                 <>
                     <Grid
                         item
@@ -42,6 +42,8 @@ export default function Charts() {
                         <HousesPlantsChart housesPlants={housesPlants} />
                     </Grid>
                 </>
+            ) : (
+                <></>
             )}
         </>
     );

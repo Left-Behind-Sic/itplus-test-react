@@ -1,8 +1,7 @@
-import axios from "axios";
-import { AppDispatch } from "../store";
-import { House, HousesPlants } from "../../models/IHouse";
-import { housesPlantsSlice } from "./HousesPlantsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { useMutation } from "react-query";
+import { HousesPlants } from "../../models/IHouse";
 
 // export const fetchHousesPlants = () => async (dispatch: AppDispatch) => {
 //   try {
@@ -27,6 +26,17 @@ export const fetchHousesPlants = createAsyncThunk(
 );
 
 export const getData = async () => {
-    const response = await fetch("/api/data");
-    return response.json();
+    const response = await axios.get<HousesPlants>("/api/data");
+    return response.data;
+};
+
+export const usePutData = () => {
+    return useMutation((updatedHousesPlants) => {
+        return axios
+            .put("/api/data", updatedHousesPlants)
+            .then((res) => res.data)
+            .catch((error) => {
+                throw new Error(error);
+            });
+    });
 };
