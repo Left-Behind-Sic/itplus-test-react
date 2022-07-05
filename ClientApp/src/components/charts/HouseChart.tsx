@@ -9,6 +9,7 @@ import {
     Tooltip,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
+import { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { HousesPlants } from "../../models/IHouse";
 
@@ -86,8 +87,8 @@ function datas(data: HousesPlants) {
     return data.houses.map((house) => ({
         label: house.Name,
         data: house.consumptions.map((consumption) => consumption.Consumption),
-        borderColor: rndColor(),
-        backgroundColor: rndColor(),
+        borderColor: useMemo(() => rndColor(), [data]),
+        backgroundColor: useMemo(() => rndColor(), [data]),
         tension: 0.1,
         fill: false,
     }));

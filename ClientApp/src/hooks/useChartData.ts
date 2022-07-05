@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { HousesPlants } from "../models/IHouse";
 
 export default function useChartData(data: HousesPlants) {
@@ -73,8 +74,8 @@ export default function useChartData(data: HousesPlants) {
                 }
             })
             .map((consumption) => consumption.Consumption),
-        borderColor: rndColor(),
-        backgroundColor: rndColorRGBA(),
+        borderColor: useMemo(() => rndColor(), [data]),
+        backgroundColor: useMemo(() => rndColorRGBA(), [data]),
         fill: true,
         radius: 1,
     }));
@@ -89,8 +90,8 @@ export default function useChartData(data: HousesPlants) {
                 }
             })
             .map((consumption) => consumption.Consumption),
-        borderColor: rndColor(),
-        backgroundColor: rndColorRGBA(),
+        borderColor: useMemo(() => rndColor(), [data]),
+        backgroundColor: useMemo(() => rndColorRGBA(), [data]),
         fill: true,
         radius: 1,
     }));

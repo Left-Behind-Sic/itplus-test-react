@@ -17,5 +17,13 @@ namespace ITPlus.TestTask.Front.Controllers
             var jobject = JsonConvert.DeserializeObject(data);
             return jobject;
         }
+
+        [HttpPut]
+        public async Task<object> Put(object item)
+        {
+            var newData = item.ToString();
+            await System.IO.File.WriteAllTextAsync(Path.Combine(AppContext.BaseDirectory, "data.json"), newData);
+            return null;
+        }
     }
 }

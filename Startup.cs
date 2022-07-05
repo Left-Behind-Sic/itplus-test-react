@@ -83,7 +83,7 @@ namespace ITPlus.TestTask.Front
                 {
                     spa.Options.SourcePath = "ClientApp";
                     spa.Options.DevServerPort = 3000;
-                    
+
                     if (env.IsDevelopment())
                     {
                         spa.UseReactDevelopmentServer(npmScript: "start");
