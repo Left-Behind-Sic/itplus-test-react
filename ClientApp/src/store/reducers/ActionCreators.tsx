@@ -33,7 +33,7 @@ export const getData = async () => {
 
 export const usePutData = () => {
 	return useMutation(
-		async (updatedHousesPlants) => {
+		async (updatedHousesPlants: HousesPlants) => {
 			const res = await axios.put("/api/data", updatedHousesPlants);
 			return res.data;
 		},
